@@ -1,4 +1,4 @@
-FROM aa6835305/fastdfs_base
+FROM johndric/fastdfs_base
 MAINTAINER <caidongqiang@hotmail.com>
 
 # install nginx
