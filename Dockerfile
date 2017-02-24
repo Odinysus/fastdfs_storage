@@ -1,6 +1,8 @@
 FROM johndric/fastdfs_base
 MAINTAINER <caidongqiang@hotmail.com>
 
+ENV TRACKER_SERVER "172.17.0.2" 
+
 # install nginx
 ## install dependen tool
 RUN yum -y install pcre-devel openssl openssl-devel wget && yum clean all
@@ -21,8 +23,11 @@ RUN cd /tmp/nginx-1.10.3 && ./configure --with-http_stub_status_module --with-ht
 # volume storage data
 VOLUME /mnt/storage
     
+
 COPY nginx.conf /usr/local/nginx/conf/
 COPY http.conf mime.types mod_fastdfs.conf storage.conf /etc/fdfs/
+
+RUN sed -i -e 's|tacker_server=172.17.0.2|tracker_server="$TRACKER_SERVER"|' /etc/fdfs/tracker.conf
 
 EXPOSE 80 23000 
 

@@ -26,12 +26,11 @@ fdfs_storaged /etc/fdfs/storage.conf start
 /usr/local/nginx/sbin/nginx
 
 
-TIMES=20
+TIMES=10000
 while [ ! -f "$STORAGE_PID_NUMBER" -a $TIMES -gt 0 ]
 do 
     sleep 1
         TIMES=`expr $TIMES - 1`
-    echo "sleep"
 done
 
 # if the storage node start successfully, print the start time
@@ -40,7 +39,7 @@ if [ $TIMES -gt 0 ]; then
     echo "please have a look at the log detail at $FASTDFS_LOG_FILE and $NGINX_ERROR_LOG"
     echo 
     echo
-    tail -f /usr/local/nginx/logs/error.log -f /usr/local/nginx/logs/access.log -f /mnt/storage/logs/storaged.log
+    tail -f $FASTDFS_LOG_FILE -f /usr/local/nginx/logs/error.log -f /usr/local/nginx/logs/access.log -f /mnt/storage/logs/storaged.log
 else 
     tail $FASTDFS_LOG_FILE
     echo "==========="
