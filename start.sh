@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -e
 
 FASTDFS_BASE_PATH="/mnt/storage"
 FASTDFS_LOG_FILE="$FASTDFS_BASE_PATH/logs/storaged.log"
@@ -21,6 +20,9 @@ if [ ! -f "$STORAGE_LN" ]; then
 fi
 
 echo "start the storage node with nginx.."
+
+# set tracker server ip of storage.conf
+sed -i -e "s/^tracker_server=.*/tracker_server=$1:22122/" /etc/fdfs/storage.conf
 
 fdfs_storaged /etc/fdfs/storage.conf start
 /usr/local/nginx/sbin/nginx

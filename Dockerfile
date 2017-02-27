@@ -1,7 +1,7 @@
 FROM johndric/fastdfs_base
 MAINTAINER <caidongqiang@hotmail.com>
 
-ENV TRACKER_SERVER "172.17.0.2" 
+ENV TRACKER_SERVER="172.17.0.2"
 
 # install nginx
 ## install dependen tool
@@ -27,12 +27,10 @@ VOLUME /mnt/storage
 COPY nginx.conf /usr/local/nginx/conf/
 COPY http.conf mime.types mod_fastdfs.conf storage.conf /etc/fdfs/
 
-RUN sed -i -e 's|tacker_server=172.17.0.2|tracker_server="$TRACKER_SERVER"|' /etc/fdfs/tracker.conf
-
 EXPOSE 80 23000 
 
 ADD start.sh /usr/bin/
 RUN chmod 777 /usr/bin/start.sh
 
-CMD ["usr/bin/start.sh"]
+ENTRYPOINT /usr/bin/start.sh $TRACKER_SERVER
 
